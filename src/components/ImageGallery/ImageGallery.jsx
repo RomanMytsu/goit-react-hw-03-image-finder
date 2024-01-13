@@ -1,16 +1,18 @@
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import { GalleryList } from './ImageGallery.styled';
 
-export const ImageGallery = ({ images }) => {
+export const ImageGallery = ({ images, showModal }) => {
   return (
-    <ul>
-      {images.map(({ id, webformatURL, largeImageURL, tags }) => (
+    <GalleryList>
+      {images.map(({ id, webformatURL, tags, largeImageURL }) => (
         <ImageGalleryItem
           key={id}
-          smallimage={webformatURL}
-          bigimage={largeImageURL}
-          tag={tags}
+          webformatURL={webformatURL}
+          largeImageURL={largeImageURL}
+          tags={tags}
+          showModal={showModal}
         />
       ))}
-    </ul>
+    </GalleryList>
   );
 };

@@ -8,6 +8,10 @@ export const ImageItem = styled.li`
 
 export const Image = styled.img`
   width: 100%;
-  height: 260px;
+  height: 170px;
   object-fit: cover;
+  &:hover {
+    transform: scale(1.03);
+    cursor: zoom-in;
+  }
 `;

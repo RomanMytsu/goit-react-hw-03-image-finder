@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import { Form, Input, LabelBtn, SearchBtn } from './SearchForm.styled';
+import { GoSearch } from 'react-icons/go';
 
 export class SearchForm extends Component {
   state = {
@@ -23,12 +25,13 @@ export class SearchForm extends Component {
     const { handleChange, handleSubmit } = this;
     const { search } = this.state;
     return (
-      <form onSubmit={handleSubmit}>
-        <button type="submit">
-          <span>Search</span>
-        </button>
+      <Form onSubmit={handleSubmit}>
+        <SearchBtn type="submit">
+          <GoSearch />
+          <LabelBtn>Search</LabelBtn>
+        </SearchBtn>
 
-        <input
+        <Input
           value={search}
           onChange={handleChange}
           name="search"
@@ -38,7 +41,7 @@ export class SearchForm extends Component {
           placeholder="Search images and photos"
           required
         />
-      </form>
+      </Form>
     );
   }
 }

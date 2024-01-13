@@ -1,3 +1,4 @@
+import { GoSearch } from 'react-icons/go';
 import styled from 'styled-components';
 
 export const Form = styled.form`
@@ -5,7 +6,7 @@ export const Form = styled.form`
   align-items: center;
   width: 100%;
   max-width: 600px;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   border-radius: 3px;
   overflow: hidden;
 `;
@@ -14,14 +15,18 @@ export const SearchBtn = styled.button`
   display: inline-block;
   width: 48px;
   height: 48px;
-  border: 0;
-  background-size: 40%;
-  background-repeat: no-repeat;
-  background-position: center;
+  border: 0px;
   opacity: 0.6;
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0s;
   outline: none;
+
+  .button:hover {
+    opacity: 1;
+  }
+`;
+export const IconBtn = styled(<GoSearch />)`
+  width: 24px;
+  height: 24px;
 `;
 
 export const LabelBtn = styled.span`
@@ -30,6 +35,7 @@ export const LabelBtn = styled.span`
   height: 1px;
   padding: 0;
   overflow: hidden;
+  color: black;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   clip-path: inset(50%);
@@ -45,4 +51,9 @@ export const Input = styled.input`
   outline: none;
   padding-left: 4px;
   padding-right: 4px;
+
+  &:placeholder {
+    font: inherit;
+    font-size: 18px;
+  }
 `;

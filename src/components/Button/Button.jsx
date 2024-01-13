@@ -1,5 +1,9 @@
+import { LoadMore } from './Button.styled';
 
-
-export const Button = ({ type = 'submit', children }) => {
-  return <button type={type}>{children}</button>;
+export const Button = ({ onClick, type = 'submit', children }) => {
+  return (
+    <LoadMore onClick={onClick} type={type}>
+      {children}
+    </LoadMore>
+  );
 };

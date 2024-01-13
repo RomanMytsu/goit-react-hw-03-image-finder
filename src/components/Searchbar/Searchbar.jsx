@@ -2,7 +2,11 @@ import { Component } from 'react';
 import { SearchForm } from './SearchForm/SearchForm';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { searchImage } from 'components/Api/Api';
-// import { Button } from 'components/Button/Button';
+import { Button } from 'components/Button/Button';
+import { Loader } from 'components/Loader/Loader';
+import { SearchbarWrap } from './Searchbar.styled';
+import { Modal } from 'components/Modal/Modal';
+import { Notify } from 'notiflix';
 
 export class Searchbar extends Component {
   state = {
@@ -11,6 +15,8 @@ export class Searchbar extends Component {
     loading: false,
     results: [],
     totalImages: 0,
+    currentItem: {},
+    openModal: false,
   };
 
   async componentDidUpdate(_, prevState) {
@@ -31,12 +37,12 @@ export class Searchbar extends Component {
 
       this.setState(prevState => ({
         totalImages: data.totalHits,
-        results:[...prevState.results, ...data.hits],
+        results: [...prevState.results, ...data.hits],
       }));
-    } catch (error) {
-      this.setState({
-        error: error.message,
-      });
+    } catch (err) {
+      Notify.error(`Error: ${err.message}`);
+    } finally {
+      this.setState({ loading: false });
     }
   }
 
@@ -47,17 +53,44 @@ export class Searchbar extends Component {
       page: 1,
     });
   };
+
+  showModal = (largeImageURL, tags) => {
+    this.setState({
+      openModal: true,
+      currentItem: {
+        largeImageURL,
+        tags,
+      },
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      openModal: false,
+      currentItem: {},
+    });
+  };
+
+  loadMore = () => {
+    this.setState(({ page }) => ({ page: page + 1 }));
+  };
   render() {
-    const { handleSearch } = this;
-    const { results } = this.state;
-    console.log(results);
+    const { handleSearch, loadMore, showModal, closeModal } = this;
+    const { results, loading, totalImages, openModal, currentItem } =
+      this.state;
     return (
       <>
-        <SearchForm onSubmit={handleSearch} />
-        <ImageGallery images={results} />
-        {/* <loadMoreWrapper>
-          <Button type="button">LoadMore</Button>
-        </loadMoreWrapper> */}
+        <SearchbarWrap>
+          <SearchForm onSubmit={handleSearch} />
+        </SearchbarWrap>
+        <ImageGallery showModal={showModal} images={results} />
+        {loading && <Loader />}
+        {!loading && !!totalImages && totalImages > results.length && (
+          <Button onClick={loadMore} type="button">
+            LoadMore
+          </Button>
+        )}
+        {openModal && <Modal item={currentItem} close={closeModal} />}
       </>
     );
   }
